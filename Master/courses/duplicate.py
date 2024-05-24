@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-# Path to your ChromeDriver
+# Path to your ChromeDriver test
 driver_path = './chromedriver.exe'
 s = Service(driver_path)
 driver = webdriver.Chrome(service=s)  
