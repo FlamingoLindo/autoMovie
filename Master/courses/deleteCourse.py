@@ -12,15 +12,6 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-print("""
-    ____  ______   _________    ____  ______________  ____
-   / __ )/ ____/  / ____/   |  / __ \/ ____/ ____/ / / / /
-  / __  / __/    / /   / /| | / /_/ / __/ / /_  / / / / /
- / /_/ / /___   / /___/ ___ |/ _, _/ /___/ __/ / /_/ / /___
-/_____/_____/   \____/_/  |_/_/ |_/_____/_/    \____/_____/
-""")
-
-
 # Path to your ChromeDriver
 driver_path = './chromedriver.exe'
 s = Service(driver_path)
@@ -45,18 +36,31 @@ pyautogui.press('enter')
 courses = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[1]/div[2]/ul/li[2]/a')))
 courses.click()
 
-open_course = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[3]/section/div[1]/table/tbody/tr[1]/td[8]/div/a')))
-open_course.click()
+
 
 for i in range(999999999):
-    print(f"Iteration number: {i + 1}")
+    print("""
+                   __     __     __           __
+              ____/ /__  / /__  / /____  ____/ /
+             / __  / _ \/ / _ \/ __/ _ \/ __  /
+            / /_/ /  __/ /  __/ /_/  __/ /_/ /
+            \__,_/\___/_/\___/\__/\___/\__,_/
 
-    dup = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[1]/div[2]/button')))
-    dup.click()
-    ok = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/button')))
+
+            """)
+    print(f"Iteration number: {i + 1} 🥸👍")
+    wait = WebDriverWait(driver, 10)  # Wait up to 10 seconds
+    third_button = wait.until(EC.presence_of_element_located(
+        (By.XPATH, '//div[@data-com="ButtonContainer"]/button[last()]')
+    ))
+
+    # Use execute_script to click on the button
+    driver.execute_script("arguments[0].click();", third_button)
+    ok = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/div[2]/button[2]')))
     ok.click()
-    
-    
+    ok2 = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="modal-root"]/div[2]/div/div/button')))
+    ok2.click()
+    time.sleep(1.5)
 
 # Close the browser
 driver.quit()

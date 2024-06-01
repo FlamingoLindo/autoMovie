@@ -16,7 +16,7 @@ s = Service(driver_path)
 driver = webdriver.Chrome(service=s)  
 
 # Sets the banner image
-banner_img = r'C:\Users\josef\Desktop\After life, death\MovieCreator\autoMovie\banner.jpg'
+banner_img = r'C:\Users\josef\Desktop\AfterLifeDeath\MovieCreator\autoMovie\banner.jpg'
 
 # Sets the audio path
 audio_path = 'https://i.supa.codes/znSGl'
@@ -58,7 +58,10 @@ email_input.send_keys(os.getenv("PROFESSOR_LOGIN"))
 # Wait for password input to be clickable
 password_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div[2]/div[2]/label/input')))
 password_input.send_keys(os.getenv("PROFESSOR_PASSWORD"))
+
 pyautogui.press('enter')
+
+time.sleep(2)
 
 # Course creation
 course_page = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/header/div/div[1]/nav/a[2]')))

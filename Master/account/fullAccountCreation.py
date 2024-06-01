@@ -75,6 +75,58 @@ driver.get(os.getenv('MOVIE_URL'))
 wait = WebDriverWait(driver, 5)
 time.sleep(2)
 
+# Clicks at the register link on the login page
+register_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div[4]/a')))
+register_btn.click()
+
+# Inputs the name 
+name_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div[2]/div[1]/label/input')))
+name_input.send_keys(fullName)
+time.sleep(0.2)
+
+# Inputs the phone number
+phone_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div[2]/div[3]/label/input')))
+phone_input.send_keys(phoneNumber)
+time.sleep(0.2)
+
+# Inputs the cpf (may not work sometimes)
+cpf_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div[2]/div[4]/label/input')))
+cpf = gera_e_valida_cpf()
+cpf_input.send_keys(cpf)
+time.sleep(0.2)
+
+# Inputs the password
+passoword_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div[2]/div[5]/label/input')))
+passoword_input.send_keys(password)
+time.sleep(0.2)
+
+# Inputs the password confirmation
+passowordConf_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div[2]/div[6]/label/input')))
+passowordConf_input.send_keys(password)
+
+time.sleep(0.2)
+
+# Inputs the email
+email_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div[2]/div[2]/label/input')))
+email_input.send_keys(email)
+
+# Clicks at the register button
+pyautogui.press('enter')
+
+# IF YOU WANT TO MAKE AN EXTERNAL ACCOUNT JUST COMMENT THE LINES 82 AND 83
+
+# Selects "INTERNAL" option
+internal_opt = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div/div[1]/div/label[2]/div')))
+internal_opt.click()
+
+create_account = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div/button')))
+create_account.click()
+
+go = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/div[2]/a')))
+go.click()
+
+time.sleep(2)
+
 # Inputs the email
 email_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div[2]/div[1]/label/input')))
 email_input.send_keys(email)

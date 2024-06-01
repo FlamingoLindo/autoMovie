@@ -12,6 +12,10 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
+fullName = input("Affiliate's full name: ")
+email = input("Affiliate's email addres: ")
+password = input("Affiliate's password: ")
+
 # Create a CPF (it might not be valid sometimes)
 def gera_cpf():
     cpf = [random.randint(0, 9) for _ in range(9)]
@@ -52,21 +56,18 @@ def gera_e_valida_cpf():
         if valida_cpf(cpf):
             return cpf
 
-# Load the Excel file
-df = pd.read_excel('./import_affiliates.xlsx')
-print(df)
-
 # Path to your ChromeDriver
 driver_path = './chromedriver.exe'
 s = Service(driver_path)
 driver = webdriver.Chrome(service=s)  
 
 # Open the web page
-driver.get(os.getenv("MOVIE_URL"))
+driver.get(os.getenv('MOVIE_URL'))
 
 # Initialize WebDriverWait
 wait = WebDriverWait(driver, 5)
 time.sleep(2)
+
 # Wait for email input to be clickable
 email_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div[2]/div[1]/label/input')))
 email_input.send_keys(os.getenv("MOVIE_LOGIN"))
@@ -76,40 +77,41 @@ password_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__ne
 password_input.send_keys(os.getenv("MOVIE_PASSWORD"))
 pyautogui.press('enter')
 
+# Clicks at the login button
+login_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div/main/form/div[2]/button')))
+login_btn.click()
+
 time.sleep(2)
 
-for index, row in df.iterrows():
+# Goes to user management page
+user_management = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[1]/div[2]/ul/li[4]/a')))
+user_management.click()
 
-    # Show what index its currently inputing (Just for debuging)
-    print(index)
+aff = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div/a[3]/div[1]')))
+aff.click()
 
-    # Redirects to the register a student page for the loop
-    driver.get("https://plataforma-mestres-educacao-empresa.vercel.app/controle-de-usuario/afiliado/criar")
-    
-    # Inputs email
-    email_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/form/div/div[1]/div[2]/label/div/input')))
-    email_input.send_keys(row['email'])
-    
-    # Inputs random CPF (Might not be valid)
-    cpf_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/form/div/div[2]/div/label/div/input')))
-    cpf = gera_e_valida_cpf()
-    cpf_input.send_keys(cpf)
+new_aff = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/section/div[2]/div[2]/div[1]/a')))
+new_aff.click()
 
-    # Inputs password
-    password_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/form/div/div[3]/div[1]/label/div/input')))
-    password_input.send_keys(row['password'])
+email_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/form/div/div[1]/div[2]/label/div/input')))
+email_input.send_keys(email)
+time.sleep(0.2)
+cpf_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/form/div/div[2]/div/label/div/input')))
+cpf = gera_e_valida_cpf()
+cpf_input.send_keys(cpf)
+time.sleep(0.2)
+password_conf = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/form/div/div[3]/div[2]/label/div/input')))
+password_conf.send_keys(password)
+time.sleep(0.2)
+password_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/form/div/div[3]/div[1]/label/div/input')))
+password_input.send_keys(password)
+time.sleep(0.2)
+name_input = wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/main/div[2]/form/div/div[1]/div[1]/label/div/input')))
+name_input.send_keys(fullName)
 
-    # Inputs password confirmation
-    passwordConfirmation_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/form/div/div[3]/div[2]/label/div/input')))
-    passwordConfirmation_input.send_keys(row['passwordConfirmation'])
+pyautogui.press('enter')
 
-    # Inputs the student name (Has to be last, because for some reason it erases if its in any other position)
-    name_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/form/div/div[1]/div[1]/label/div/input')))
-    name_input.send_keys(row['username'])
-
-    #Finishes the register
-    finish_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/form/button')))
-    finish_btn.click()
+time.sleep(5)
 
 # Close the browser
 driver.quit()

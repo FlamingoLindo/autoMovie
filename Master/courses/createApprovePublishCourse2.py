@@ -10,13 +10,8 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-# Path to your ChromeDriver
-driver_path = './chromedriver.exe'
-s = Service(driver_path)
-driver = webdriver.Chrome(service=s)  
-
 # Sets the banner image
-banner_img = r'C:\Users\josef\Desktop\After life, death\MovieCreator\autoMovie\banner.jpg'
+banner_img = r'C:\Users\josef\Desktop\AfterLifeDeath\MovieCreator\autoMovie\banner.jpg'
 
 # Sets the audio path
 audio_path = 'https://i.supa.codes/znSGl'
@@ -24,12 +19,17 @@ audio_path = 'https://i.supa.codes/znSGl'
 # Sets the document path
 document_path = 'https://i.supa.codes/jdy5b'
 
+# Path to your ChromeDriver
+driver_path = './chromedriver.exe'
+s = Service(driver_path)
+driver = webdriver.Chrome(service=s)  
+
 # Open the web page
 driver.get(os.getenv('MOVIE_URL'))
 
 # Class for adding a class
 def add_class():
-    class_click = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/a/img')))
+    class_click = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/a')))
     class_click.click()
 
 # Class for doing the finals setps athe concluding the class creation
@@ -56,71 +56,85 @@ password_input = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__ne
 password_input.send_keys(os.getenv("MOVIE_PASSWORD"))
 pyautogui.press('enter')
 
+time.sleep(3)
+
 # Course creation
 course_page = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[1]/div[2]/ul/li[2]/a')))
 course_page.click()
 create_couse = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[3]/section/div[2]')))
 create_couse.click()
 
+# Total time
+total_time = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mainForm"]/div/div/div/label/div/input')))
+total_time.clear()
+courseTime = input("Course total time (only numbers): ")
+total_time.send_keys(courseTime)
+
 # Course name
 name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div[2]/div/form[1]/div/label/div/input')))
-name.send_keys("Teaching teachers how to teach")
+courseName = input("Course name: ")
+name.send_keys(courseName)
 
 # Description
 description = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div[2]/div/form[1]/label/div/label/textarea')))
-description.send_keys("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla at risus. Quisque purus magna, auctor et, sagittis ac, posuere eu, lectus. Nam mattis, felis ut adipiscing")
+courseDescription = input("Course description: ")
+description.send_keys(courseDescription)
 
 # Inputs course category
 course_category = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mainForm"]/div/label[2]/div/div')))
 course_category.click()
 time.sleep(0.5)
-course_category_option = wait.until(EC.element_to_be_clickable((By.XPATH, f"//div[contains(text(), 'Novos')]")))
+courseCategory = input("Course category (Mais Vistos, Melhores, Avaliados, Top de Vendas, Novos): ")
+course_category_option = wait.until(EC.element_to_be_clickable((By.XPATH, f"//div[contains(text(), '{courseCategory}')]")))
 course_category_option.click()
 
 # Tags 
 tags = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div[2]/div/form[2]/div/label/div/input')))
-tags.send_keys("Lorem ipsum dolor sit amet")
+courseTag = input("Course tag: ")
+tags.send_keys(courseTag)
 tags_send = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div[2]/div/form[2]/div/label/div/div/button')))
 tags_send.click()
-
-# Total time
-total_time = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mainForm"]/div/div/div/label/div/input')))
-total_time.clear()
-total_time.send_keys("69")
 
 # Add banner
 wait = WebDriverWait(driver, 10)  
 file_input = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="mainForm"]/div/label[1]/input')))
 file_path = banner_img
 file_input.send_keys(file_path)
-pyautogui.press('enter')
+nextPage_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div[2]/div/form[3]/button')))
+nextPage_btn.click()
 
 # Module name
 mod_name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div[2]/div/form[1]/div/label/div/input')))
-mod_name.send_keys("Module number one (1)")
+modName = input("Course module name: ")
+mod_name.send_keys(modName)
+courseProfessor = input("Professor for this course: ")
 pyautogui.press('enter')
 
 # Select the professor
 course_professor = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div[2]/div/form[2]/label[1]/div/div')))
 course_professor.click()
-course_professor_option = wait.until(EC.element_to_be_clickable((By.XPATH, f"//div[contains(text(), 'Funcionário Novo 1')]")))
+course_professor_option = wait.until(EC.element_to_be_clickable((By.XPATH, f"//div[contains(text(), '{courseProfessor}')]")))
 course_professor_option.click()
-pyautogui.press('enter')
-
+nextPage_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div[2]/form/button')))
+nextPage_btn.click()
+time.sleep(4)
 # Adds video class
 add_class()
 
 class_name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[2]/label/div/input')))
-class_name.send_keys("Video")
+videoName = input("Video class name: ")
+class_name.send_keys(videoName)
 
 class_desc = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[3]/label/div/label/textarea')))
-class_desc.send_keys("Description")
+videoDesc = input("Video class description: ")
+class_desc.send_keys(videoDesc)
 
 video_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[3]/div[2]/button[1]/div')))
 video_btn.click()
 
 video_url = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[2]/input')))
-video_url.send_keys("https://youtu.be/dQw4w9WgXcQ")
+videoURL = input("Video URL: ")
+video_url.send_keys(videoURL)
 
 video_search = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[2]/div/button[2]')))
 video_search.click()
@@ -131,16 +145,19 @@ finish_class()
 add_class()
 
 class_name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[2]/label/div/input')))
-class_name.send_keys("Text")
+textName = input("Text class name: ")
+class_name.send_keys(textName)
 
 class_desc = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[3]/label/div/label/textarea')))
-class_desc.send_keys("Description")
+textDesc = input("Text class description: ")
+class_desc.send_keys(textDesc)
 
 text_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[3]/div[2]/button[2]/div')))
 text_btn.click()
 
 text = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[2]/label/textarea')))
-text.send_keys("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla at risus. Quisque purus magna, auctor et, sagittis ac, posuere eu, lectus. Nam mattis, felis ut adipiscing")
+textText = input("Text class text: ")
+text.send_keys(textText)
 
 finish_class()
 
@@ -148,16 +165,19 @@ finish_class()
 add_class()
 
 class_name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[2]/label/div/input')))
-class_name.send_keys("Image")
+imageName = input("Image class name: ")
+class_name.send_keys(imageName)
 
 class_desc = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[3]/label/div/label/textarea')))
-class_desc.send_keys("Description")
+imgaeDesc = input("Image class description: ")
+class_desc.send_keys(imgaeDesc)
 
 image_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[3]/div[2]/button[3]/div')))
 image_btn.click()
 
 image_search = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[2]/input')))
-image_search.send_keys("https://i.supa.codes/znSGl")
+imageURL = input("Image URL: ")
+image_search.send_keys(imageURL)
 
 image_done = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[2]/div/button[2]')))
 image_done.click()
@@ -169,16 +189,19 @@ finish_class()
 add_class()
 
 class_name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[2]/label/div/input')))
-class_name.send_keys("Audio")
+audioName = input("Audio class name: ")
+class_name.send_keys(audioName)
 
 class_desc = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[3]/label/div/label/textarea')))
-class_desc.send_keys("Description")
+audioDesc = input("Audio class description: ")
+class_desc.send_keys(audioDesc)
 
 audio_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[3]/div[2]/button[4]/div')))
 audio_btn.click()
 
 audio_search = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[2]/input')))
-audio_search.send_keys(audio_path)
+audioURL = input("Audio URL: ")
+audio_search.send_keys(audioURL)
 audio_done = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[2]/div/button[2]')))
 audio_done.click()
 
@@ -188,10 +211,12 @@ finish_class()
 add_class()
 
 class_name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[2]/label/div/input')))
-class_name.send_keys("Document")
+docName = input("Document class name: ")
+class_name.send_keys(docName)
 
 class_desc = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[3]/label/div/label/textarea')))
-class_desc.send_keys("Description")
+docDesc = input("Document class description: ")
+class_desc.send_keys(docDesc)
 
 document_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[3]/div[2]/button[5]/div')))
 document_btn.click()
@@ -207,10 +232,12 @@ finish_class()
 add_class()
 
 class_name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[2]/label/div/input')))
-class_name.send_keys("Code")
+codeName = input("Code class name: ")
+class_name.send_keys(codeName)
 
 class_desc = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[3]/label/div/label/textarea')))
-class_desc.send_keys("Description")
+codeDesc = input("Code class description: ")
+class_desc.send_keys(codeDesc)
 
 code_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[3]/div[2]/button[6]/div')))
 code_btn.click()
@@ -220,7 +247,8 @@ janky_solution.click()
 pyautogui.press('tab')
 pyautogui.press('tab')
 pyautogui.press('tab')
-pyautogui.hotkey('shift', '1')
+codeText = input("Code class text: ")
+pyautogui.write(codeText)
 
 finish_class()
 
@@ -228,16 +256,18 @@ finish_class()
 add_class()
 
 class_name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[2]/label/div/input')))
-class_name.send_keys("Choices")
+choicesName = input("Choices class name: ")
+class_name.send_keys(choicesName)
 
 class_desc = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[3]/label/div/label/textarea')))
-class_desc.send_keys("Description")
+choisesDesc = input("Choices class description: ")
+class_desc.send_keys(choisesDesc)
 
 choices_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[3]/div[2]/button[7]/div')))
 choices_btn.click()
 
 multiple_choices_class_question = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[1]/label/div/input')))
-multiple_choices_class_question.send_keys("Choices")
+multiple_choices_class_question.send_keys(choicesName)
 alternative1 = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/button')))
 alternative1.click()
 alternative2 = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/button')))
@@ -246,10 +276,12 @@ is_right = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/m
 is_right.click()
 alt_txt1 = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[2]/ul/li[1]/input')))
 alt_txt1.click()
-alt_txt1.send_keys("Right")
+choice1 = input("Choice 1 (right): ")
+alt_txt1.send_keys(choice1)
 alt_txt2 = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[2]/ul/li[2]/input')))
 alt_txt2.click()
-alt_txt2.send_keys("Wrong")
+choice2 = input("Choice 2 (wrong): ")
+alt_txt2.send_keys(choice2)
 
 finish_class()
 
@@ -257,16 +289,19 @@ finish_class()
 add_class()
 
 class_name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[2]/label/div/input')))
-class_name.send_keys("Dissertative")
+dissName = input("Dissertative class name: ")
+class_name.send_keys(dissName)
 
 class_desc = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[3]/label/div/label/textarea')))
-class_desc.send_keys("Description")
+dissDesc = input("Dissertative class description: ")
+class_desc.send_keys(dissDesc)
 
 dessertative_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[3]/div[2]/button[8]/div')))
 dessertative_btn.click()
 
 text_field = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[2]/label/textarea')))
-text_field.send_keys('Lorem ipsum dolor sit amet')
+dissText = input("Dissertative text: ")
+text_field.send_keys(dissText)
 
 finish_class()
 
@@ -275,16 +310,19 @@ finish_class()
 add_class()
 
 class_name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[2]/label/div/input')))
-class_name.send_keys("Essay")
+essName = input("Essay class name: ")
+class_name.send_keys(essName)
 
 class_desc = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[1]/div[3]/label/div/label/textarea')))
-class_desc.send_keys("Description")
+essDesc = input("Essay class description: ")
+class_desc.send_keys(essDesc)
 
 essay_btn = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[3]/div[2]/button[9]/div')))
 essay_btn.click()
 
 text_field = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div/div[2]/section/div/div/div/div[1]/label/div/input')))
-text_field.send_keys('Lorem ipsum dolor sit amet')
+essText = input("Essay text:")
+text_field.send_keys(essText)
 
 finish_class()
 
@@ -308,48 +346,59 @@ test_creation.click()
 
 # Test name
 test_name = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[1]/div[2]/label/div/input')))
-test_name.send_keys("Test")
+testName = input("Test name: ")
+test_name.send_keys(testName)
 
 # Test module
 test_module = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[1]/label/div/div')))
 test_module.click()
-test_module_drop = wait.until(EC.element_to_be_clickable((By.XPATH, f"//div[contains(text(), 'Module number one (1)')]")))
+testMod = input("Test module (the same one you made during the course creation): ")
+test_module_drop = wait.until(EC.element_to_be_clickable((By.XPATH, f"//div[contains(text(), '{testMod}')]")))
 test_module_drop.click()
 
 # Add test attempts
 attempts = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[1]/div[3]/div/div/div/label/div/input')))
-attempts.send_keys("5")
+testAttemp = input("Number of attemps for the test (only numbers): ")
+attempts.send_keys(testAttemp)
 
 # Add test questions
 choices_test = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[4]/button[7]/div')))
 choices_test.click()
 value = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div/input')))
-value.send_keys(1)
+testValue1 = input("Question 1 value (only numbers): ")
+value.send_keys(testValue1)
 choices_test_title = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/section/div/div/div/div[1]/label/div/input')))
-choices_test_title.send_keys("Choices Test")
+testChoiceName = input("Choices question name: ")
+choices_test_title.send_keys(testChoiceName)
 add_choices = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/section/div/div/div/button')))
 add_choices.click()
 add_choices.click()
 right = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/section/div/div/div/div[2]/ul/li[1]/input')))
-right.send_keys("Right")
+testChoice1 = input("Choice 1 (right): ")
+right.send_keys(testChoice1)
 wrong = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/section/div/div/div/div[2]/ul/li[2]/input')))
-wrong.send_keys("Wrong")
+testChoice2 = input("Choice 2 (wrong):")
+wrong.send_keys(testChoice2)
 is_right = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/section/div/div/div/div[2]/ul/li[1]/div[2]/label[1]/div')))
 is_right.click()
 
 dissertative_test = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[4]/button[8]/div')))
 dissertative_test.click()
 value2 = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div[2]/input')))
-value2.send_keys(1)
+testValue2 = input("Question 2 value (only numbers): ")
+value2.send_keys(testValue2)
 dissertative_test_question = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/section[2]/div/div/div/div[2]/label/textarea')))
-dissertative_test_question.send_keys('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
+testDiss = input("Test dissertative text: ")
+dissertative_test_question.send_keys(testDiss)
 
 essay_test = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[4]/button[9]/div')))
 essay_test.click()
 value3 = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/div[3]/input')))
-value3.send_keys(1)
+testValue3 = input("Question 3 value (only numbers): ")
+value3.send_keys(testValue3)
 essay_test_question = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/div[2]/div[2]/section[3]/div/div/div/div[1]/label/div/input')))
-essay_test_question.send_keys('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
+testEssText = input("Test essay text: ")
+essay_test_question.send_keys(testEssText)
 
 # Finish test creation
 finish_test = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/main/header/button/img')))
